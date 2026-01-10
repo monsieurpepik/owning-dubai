@@ -11,46 +11,42 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md">
+      <div className="container mx-auto flex h-20 items-center justify-between px-6 md:px-12">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <Home className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold text-gray-900">
-            Owning<span className="text-primary">Dubai</span>
+          <span className="font-serif text-2xl font-light text-gray-900 tracking-tight">
+            Owning<span className="text-accent">Dubai</span>
           </span>
         </Link>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/properties" className="text-sm font-medium hover:text-primary transition-colors">
+        <nav className="hidden md:flex items-center space-x-10">
+          <Link href="/properties" className="text-sm font-light tracking-wide hover:text-accent transition-colors uppercase">
             Properties
           </Link>
-          <Link href="/off-plan" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/off-plan" className="text-sm font-light tracking-wide hover:text-accent transition-colors uppercase">
             Off-Plan
           </Link>
           <Link href="/favorites" className="relative">
-            <Button variant="ghost" size="sm">
-              <Heart className="h-5 w-5" />
+            <button className="text-sm font-light tracking-wide hover:text-accent transition-colors uppercase flex items-center gap-2">
+              <Heart className="h-4 w-4" />
+              <span>Favorites</span>
               {favorites.length > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-white text-xs flex items-center justify-center">
-                  {favorites.length}
-                </span>
+                <span className="ml-1 text-xs text-gray-600">({favorites.length})</span>
               )}
-            </Button>
+            </button>
           </Link>
         </nav>
 
         {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="md:hidden"
+        <button
+          className="md:hidden p-2"
           onClick={() => setMobileMenuOpen(true)}
           aria-label="Open menu"
         >
-          <Menu className="h-6 w-6" />
-        </Button>
+          <Menu className="h-5 w-5 text-gray-900" />
+        </button>
       </div>
 
       {/* Mobile Menu Drawer */}

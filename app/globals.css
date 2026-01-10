@@ -2,9 +2,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #E31E24;
-  --primary-hover: #C41A1F;
+  --foreground: #1a1a1a;
+  --primary: #1a1a1a;
+  --primary-hover: #000000;
+  --accent: #C9A961;
+  --accent-hover: #B8944E;
   --success: #10B981;
   --success-hover: #059669;
   --info: #3B82F6;
@@ -17,39 +19,42 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-success: var(--success);
   --color-success-hover: var(--success-hover);
   --color-info: var(--info);
   --color-warning: var(--warning);
   --color-error: var(--error);
 
-  --color-gray-50: #F9FAFB;
+  --color-gray-50: #FAFAFA;
   --color-gray-100: #F5F5F5;
-  --color-gray-200: #E5E7EB;
-  --color-gray-300: #D1D5DB;
-  --color-gray-400: #9CA3AF;
-  --color-gray-500: #6B7280;
-  --color-gray-600: #4B5563;
-  --color-gray-700: #404040;
-  --color-gray-800: #1F2937;
-  --color-gray-900: #171717;
+  --color-gray-200: #EEEEEE;
+  --color-gray-300: #E0E0E0;
+  --color-gray-400: #BDBDBD;
+  --color-gray-500: #9E9E9E;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-800: #424242;
+  --color-gray-900: #1a1a1a;
 
-  --radius-sm: 0.125rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  --radius-sm: 0rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.75rem;
 
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08);
+  --shadow-md: 0 2px 8px 0 rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 4px 16px 0 rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 8px 32px 0 rgb(0 0 0 / 0.12);
 
-  --spacing-section: 4rem;
-  --spacing-container: 1rem;
-  --spacing-card: 1.5rem;
+  --spacing-section: 5rem;
+  --spacing-container: 1.5rem;
+  --spacing-card: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {

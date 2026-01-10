@@ -76,7 +76,7 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
   };
 
   return (
-    <div className="w-full max-w-2xl bg-white rounded-lg p-6 space-y-6 shadow-lg">
+    <div className="w-full max-w-2xl bg-white/95 backdrop-blur-md border border-gray-200 p-8 space-y-6">
       {/* Purpose Tabs */}
       <Tabs
         defaultValue="off-plan"
@@ -87,10 +87,10 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
           else updateFilter('purpose', 'Off-Plan');
         }}
       >
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rent">Rent</TabsTrigger>
-          <TabsTrigger value="buy">Buy</TabsTrigger>
-          <TabsTrigger value="off-plan">Off-Plan</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 bg-transparent border border-gray-300 p-1">
+          <TabsTrigger value="rent" className="data-[state=active]:bg-gray-900 data-[state=active]:text-white uppercase tracking-wider text-xs font-light">Rent</TabsTrigger>
+          <TabsTrigger value="buy" className="data-[state=active]:bg-gray-900 data-[state=active]:text-white uppercase tracking-wider text-xs font-light">Buy</TabsTrigger>
+          <TabsTrigger value="off-plan" className="data-[state=active]:bg-gray-900 data-[state=active]:text-white uppercase tracking-wider text-xs font-light">Off-Plan</TabsTrigger>
         </TabsList>
       </Tabs>
 
