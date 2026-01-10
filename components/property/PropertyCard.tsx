@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Property } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { Heart, Bed, Bath, Square, MapPin, Phone, MessageCircle } from 'lucide-react';
+import { Heart, Bed, Bath, Square, MapPin, Phone, MessageCircle, Check } from 'lucide-react';
 import { useFavoriteStore } from '@/store/favoriteStore';
 import { cn, formatPrice, formatDate } from '@/lib/utils';
 
@@ -43,7 +44,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/properties/${property.id}`}>
-      <div className="group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white">
+      <div className="group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white hover:-translate-y-1">
         {/* Image Carousel */}
         <div className="relative aspect-[4/3]">
           <Swiper
@@ -55,11 +56,16 @@ export function PropertyCard({ property }: PropertyCardProps) {
           >
             {property.images.map((img, idx) => (
               <SwiperSlide key={idx}>
-                <img
-                  src={img}
-                  alt={`${property.propertyType} in ${property.location.area}`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={img}
+                    alt={`${property.propertyType} in ${property.location.area}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={idx === 0}
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -68,7 +74,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           <div className="absolute top-3 left-3 flex gap-2 z-10">
             {property.verification.verified && (
               <Badge variant="success" className="bg-white text-green-600">
-                ✓ Verified
+                <Check className="h-3 w-3 mr-1" aria-hidden="true" /> Verified
               </Badge>
             )}
             {property.completionStatus === 'Off-Plan' && (
@@ -79,10 +85,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
           {/* Favorite Button */}
           <button
             onClick={handleFavoriteClick}
-            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:scale-110 transition-transform z-10"
+            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:scale-110 active:scale-95 transition-all duration-200 z-10"
+            aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
           >
             <Heart
-              className={cn('w-5 h-5', favorite ? 'fill-red-500 text-red-500' : 'text-gray-600')}
+              className={cn('w-5 h-5 transition-all duration-200', favorite ? 'fill-red-500 text-red-500 scale-110' : 'text-gray-600')}
             />
           </button>
         </div>

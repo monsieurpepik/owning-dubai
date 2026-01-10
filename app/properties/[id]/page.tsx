@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MortgageCalculator } from '@/components/property/MortgageCalculator';
@@ -67,11 +68,16 @@ export default function PropertyDetailPage() {
           >
             {property.images.map((img, idx) => (
               <SwiperSlide key={idx}>
-                <img
-                  src={img}
-                  alt={`Property ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={img}
+                    alt={`Property image ${idx + 1}`}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                    priority={idx === 0}
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -90,11 +96,15 @@ export default function PropertyDetailPage() {
           >
             {property.images.map((img, idx) => (
               <SwiperSlide key={idx}>
-                <img
-                  src={img}
-                  alt={`Thumbnail ${idx + 1}`}
-                  className="w-full h-full object-cover rounded-md"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={img}
+                    alt={`Property thumbnail ${idx + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 25vw, (max-width: 1024px) 16vw, 12vw"
+                    className="object-cover rounded-md"
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -111,7 +121,9 @@ export default function PropertyDetailPage() {
                 <div>
                   <div className="flex gap-2 mb-2">
                     {property.verification.verified && (
-                      <Badge variant="success">✓ Verified</Badge>
+                      <Badge variant="success">
+                        <Check className="h-3 w-3 mr-1" aria-hidden="true" /> Verified
+                      </Badge>
                     )}
                     {property.completionStatus === 'Off-Plan' && (
                       <Badge className="bg-blue-500 text-white">Off-Plan</Badge>
@@ -244,11 +256,15 @@ export default function PropertyDetailPage() {
             {/* Agent Card */}
             <div className="bg-white rounded-lg p-6 sticky top-20">
               <div className="flex items-center gap-4 mb-6">
-                <img
-                  src={property.agent.photo}
-                  alt={property.agent.name}
-                  className="w-16 h-16 rounded-full"
-                />
+                <div className="relative w-16 h-16">
+                  <Image
+                    src={property.agent.photo}
+                    alt={property.agent.name}
+                    width={64}
+                    height={64}
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <h3 className="font-semibold text-lg">{property.agent.name}</h3>
                   <p className="text-sm text-gray-600">{property.agent.agency}</p>
