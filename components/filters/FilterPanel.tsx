@@ -76,33 +76,35 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
   };
 
   return (
-    <div className="w-full max-w-2xl bg-white rounded-lg p-6 space-y-6 shadow-lg">
+    <div className="w-full max-w-3xl bg-white rounded-lg p-8 space-y-8 border border-gray-200">
       {/* Purpose Tabs */}
-      <Tabs
-        defaultValue="off-plan"
-        value={filters.purpose?.toLowerCase().replace(' ', '-') || 'off-plan'}
-        onValueChange={(val) => {
-          if (val === 'rent') updateFilter('purpose', 'Rent');
-          else if (val === 'buy') updateFilter('purpose', 'Sale');
-          else updateFilter('purpose', 'Off-Plan');
-        }}
-      >
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rent">Rent</TabsTrigger>
-          <TabsTrigger value="buy">Buy</TabsTrigger>
-          <TabsTrigger value="off-plan">Off-Plan</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div>
+        <Tabs
+          defaultValue="off-plan"
+          value={filters.purpose?.toLowerCase().replace(' ', '-') || 'off-plan'}
+          onValueChange={(val) => {
+            if (val === 'rent') updateFilter('purpose', 'Rent');
+            else if (val === 'buy') updateFilter('purpose', 'Sale');
+            else updateFilter('purpose', 'Off-Plan');
+          }}
+        >
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="rent">Rent</TabsTrigger>
+            <TabsTrigger value="buy">Buy</TabsTrigger>
+            <TabsTrigger value="off-plan">Off-Plan</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       {/* Location */}
-      <div className="space-y-2">
-        <Label>Location</Label>
+      <div className="space-y-3">
+        <Label className="text-sm font-medium text-gray-900">Location</Label>
         <Input placeholder="e.g. Dubai Marina" icon={<MapPin className="w-4 h-4" />} />
       </div>
 
       {/* Property Type */}
-      <div className="space-y-2">
-        <Label>Property Type</Label>
+      <div className="space-y-3">
+        <Label className="text-sm font-medium text-gray-900">Property type</Label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {['Residential', 'Commercial', 'Land', 'Multiple Units'].map((type) => (
             <Button
@@ -120,9 +122,9 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
       </div>
 
       {/* Price Range */}
-      <div className="space-y-2">
-        <Label>Price Range</Label>
-        <div className="flex gap-2 mb-3">
+      <div className="space-y-3">
+        <Label className="text-sm font-medium text-gray-900">Price range</Label>
+        <div className="flex gap-3 mb-4">
           <Input
             type="number"
             placeholder="Min"
@@ -130,7 +132,7 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
             onChange={(e) => handlePriceRangeChange([Number(e.target.value), priceRange[1]])}
             suffix="AED"
           />
-          <span className="self-center text-gray-500">to</span>
+          <span className="self-center text-gray-400">—</span>
           <Input
             type="number"
             placeholder="Max"
@@ -146,15 +148,15 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
           step={50000}
           className="w-full"
         />
-        <div className="flex justify-between text-xs text-gray-600">
+        <div className="flex justify-between text-xs text-gray-500">
           <span>AED {formatPrice(priceRange[0])}</span>
           <span>AED {formatPrice(priceRange[1])}</span>
         </div>
       </div>
 
       {/* Bedrooms */}
-      <div className="space-y-2">
-        <Label>Bedrooms</Label>
+      <div className="space-y-3">
+        <Label className="text-sm font-medium text-gray-900">Bedrooms</Label>
         <div className="flex flex-wrap gap-2">
           {[
             { label: 'Studio', value: 0 },
@@ -178,8 +180,8 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
       </div>
 
       {/* Bathrooms */}
-      <div className="space-y-2">
-        <Label>Bathrooms</Label>
+      <div className="space-y-3">
+        <Label className="text-sm font-medium text-gray-900">Bathrooms</Label>
         <div className="flex flex-wrap gap-2">
           {[1, 2, 3, 4, 5, 6].map((bath) => (
             <Button
@@ -196,12 +198,10 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
 
       {/* Off-Plan Filters */}
       {filters.purpose === 'Off-Plan' && (
-        <div className="space-y-4 border-t pt-4">
-          <h3 className="font-semibold">Off-Plan Filters</h3>
-
+        <div className="space-y-6 border-t border-gray-200 pt-6">
           {/* Completion Status */}
-          <div className="space-y-2">
-            <Label>Completion Status</Label>
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-900">Completion status</Label>
             <div className="flex flex-wrap gap-2">
               {['All', 'Ready', 'Off-Plan'].map((status) => (
                 <Button
@@ -219,8 +219,8 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
           </div>
 
           {/* Handover Year */}
-          <div className="space-y-2">
-            <Label>Handover Year</Label>
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-900">Handover year</Label>
             <div className="flex flex-wrap gap-2">
               {['2026', '2027', '2028', '2029', '2030', '2031+'].map((year) => (
                 <Button
@@ -240,8 +240,8 @@ export function FilterPanel({ onSearch }: { onSearch?: () => void }) {
       )}
 
       {/* Action Button */}
-      <Button className="w-full bg-primary hover:bg-primary-hover text-white" size="lg" onClick={onSearch}>
-        Show {formatPrice(getResultCount())} Results
+      <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white" size="lg" onClick={onSearch}>
+        Show {formatPrice(getResultCount())} {getResultCount() === 1 ? 'property' : 'properties'}
       </Button>
     </div>
   );

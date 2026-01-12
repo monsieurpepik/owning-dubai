@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { mockProperties } from '@/lib/mockData';
 import { useFavoriteStore } from '@/store/favoriteStore';
-import { formatPrice, formatDate } from '@/lib/utils';
+import { formatPrice, formatDate, cn } from '@/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -53,10 +53,10 @@ export default function PropertyDetailPage() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Image Gallery */}
-      <section className="bg-white">
-        <div className="container mx-auto px-4 py-6">
+      <section className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-8">
           <Swiper
             modules={[Navigation, Pagination, Thumbs]}
             navigation
@@ -101,28 +101,27 @@ export default function PropertyDetailPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             {/* Header */}
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <div className="flex gap-2 mb-2">
-                    {property.verification.verified && (
-                      <Badge variant="success">✓ Verified</Badge>
-                    )}
-                    {property.completionStatus === 'Off-Plan' && (
-                      <Badge className="bg-blue-500 text-white">Off-Plan</Badge>
-                    )}
-                  </div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                    {property.bedrooms}-Bedroom {property.propertyType}
+            <div>
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex-1">
+                  {property.completionStatus === 'Off-Plan' && (
+                    <div className="mb-3">
+                      <Badge className="bg-gray-900 text-white border-0 text-xs font-medium">
+                        Off-Plan
+                      </Badge>
+                    </div>
+                  )}
+                  <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-3 tracking-tight">
+                    {property.bedrooms === 0 ? 'Studio' : `${property.bedrooms}-Bedroom`} {property.propertyType}
                   </h1>
-                  <p className="text-gray-600 flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                    {property.location.building}, {property.location.area}, {property.location.city}
+                  <p className="text-lg text-gray-600 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    {property.location.area}, {property.location.city}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -131,31 +130,33 @@ export default function PropertyDetailPage() {
                     size="sm"
                     onClick={() => toggleFavorite(property.id)}
                   >
-                    <Heart className={favorite ? 'fill-red-500 text-red-500' : ''} />
+                    <Heart className={cn('w-4 h-4', favorite && 'fill-red-500 text-red-500')} />
                   </Button>
                   <Button variant="outline" size="sm">
-                    <Share2 />
+                    <Share2 className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
 
-              <div className="border-t pt-4">
-                <div className="text-3xl font-bold text-primary mb-2">
+              <div className="border-t border-gray-200 pt-6">
+                <div className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4 tracking-tight">
                   AED {formatPrice(property.price)}
                   {property.purpose === 'Rent' && (
-                    <span className="text-lg font-normal text-gray-600">/year</span>
+                    <span className="text-xl font-normal text-gray-600 ml-2">/year</span>
                   )}
                 </div>
-                <div className="flex gap-6 text-gray-700">
-                  <span className="flex items-center gap-2">
-                    <Bed className="w-5 h-5" />
-                    {property.bedrooms} Bedrooms
-                  </span>
-                  <span className="flex items-center gap-2">
+                <div className="flex gap-8 text-gray-700">
+                  {property.bedrooms > 0 && (
+                    <span className="flex items-center gap-2 text-base">
+                      <Bed className="w-5 h-5" />
+                      {property.bedrooms}
+                    </span>
+                  )}
+                  <span className="flex items-center gap-2 text-base">
                     <Bath className="w-5 h-5" />
-                    {property.bathrooms} Bathrooms
+                    {property.bathrooms}
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 text-base">
                     <Square className="w-5 h-5" />
                     {formatPrice(property.size)} sqft
                   </span>
@@ -164,64 +165,56 @@ export default function PropertyDetailPage() {
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Description</h2>
-              <p className="text-gray-700 leading-relaxed">{property.description}</p>
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4 tracking-tight">About this property</h2>
+              <p className="text-base text-gray-700 leading-relaxed">{property.description}</p>
             </div>
 
             {/* Details */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Property Details</h2>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Property details</h2>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <p className="text-sm text-gray-600">Type</p>
-                  <p className="font-semibold">{property.propertyType}</p>
+                  <p className="text-sm text-gray-600 mb-1">Type</p>
+                  <p className="text-base font-medium text-gray-900">{property.propertyType}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Purpose</p>
-                  <p className="font-semibold">{property.purpose}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Furnishing</p>
-                  <p className="font-semibold">{property.furnishing}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Completion</p>
-                  <p className="font-semibold">{property.completionStatus}</p>
+                  <p className="text-sm text-gray-600 mb-1">Furnishing</p>
+                  <p className="text-base font-medium text-gray-900">{property.furnishing}</p>
                 </div>
                 {property.handoverDate && (
                   <div>
-                    <p className="text-sm text-gray-600">Handover</p>
-                    <p className="font-semibold">{property.handoverDate}</p>
+                    <p className="text-sm text-gray-600 mb-1">Handover</p>
+                    <p className="text-base font-medium text-gray-900">{property.handoverDate}</p>
                   </div>
                 )}
                 {property.paymentPlan && (
                   <div>
-                    <p className="text-sm text-gray-600">Payment Plan</p>
-                    <p className="font-semibold">{property.paymentPlan}</p>
+                    <p className="text-sm text-gray-600 mb-1">Payment plan</p>
+                    <p className="text-base font-medium text-gray-900">{property.paymentPlan}</p>
                   </div>
                 )}
                 {property.developer && (
                   <div>
-                    <p className="text-sm text-gray-600">Developer</p>
-                    <p className="font-semibold">{property.developer}</p>
+                    <p className="text-sm text-gray-600 mb-1">Developer</p>
+                    <p className="text-base font-medium text-gray-900">{property.developer}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-sm text-gray-600">Posted</p>
-                  <p className="font-semibold">{formatDate(property.postedAt)}</p>
+                  <p className="text-sm text-gray-600 mb-1">Listed</p>
+                  <p className="text-base font-medium text-gray-900">{formatDate(property.postedAt)}</p>
                 </div>
               </div>
             </div>
 
             {/* Amenities */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Amenities</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Amenities</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {property.amenities.map((amenity) => (
-                  <div key={amenity} className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-600" />
-                    <span className="text-sm">{amenity}</span>
+                  <div key={amenity} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-gray-900 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-700">{amenity}</span>
                   </div>
                 ))}
               </div>
@@ -231,38 +224,27 @@ export default function PropertyDetailPage() {
             <MortgageCalculator propertyPrice={property.price} />
 
             {/* Map Placeholder */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Location</h2>
-              <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                <p className="text-gray-500">Map View ({property.location.area})</p>
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Location</h2>
+              <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
+                <p className="text-gray-500">{property.location.area}</p>
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Agent Card */}
-            <div className="bg-white rounded-lg p-6 sticky top-20">
-              <div className="flex items-center gap-4 mb-6">
-                <img
-                  src={property.agent.photo}
-                  alt={property.agent.name}
-                  className="w-16 h-16 rounded-full"
-                />
-                <div>
-                  <h3 className="font-semibold text-lg">{property.agent.name}</h3>
-                  <p className="text-sm text-gray-600">{property.agent.agency}</p>
-                </div>
+            <div className="border border-gray-200 rounded-lg p-6 sticky top-24">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">{property.agent.name}</h3>
+                <p className="text-sm text-gray-600">{property.agent.agency}</p>
               </div>
 
-              <div className="space-y-3">
-                <Button className="w-full bg-primary hover:bg-primary-hover">
+              <div className="space-y-2">
+                <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
                   <Phone className="w-4 h-4 mr-2" />
-                  Call Agent
-                </Button>
-                <Button className="w-full bg-green-600 hover:bg-green-700">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  WhatsApp
+                  Call
                 </Button>
                 <Button variant="outline" className="w-full">
                   <Mail className="w-4 h-4 mr-2" />
@@ -270,10 +252,10 @@ export default function PropertyDetailPage() {
                 </Button>
               </div>
 
-              <div className="mt-6 pt-6 border-t text-xs text-gray-600 space-y-1">
-                <p>Permit: {property.regulatory.permitNumber}</p>
-                <p>RERA: {property.regulatory.rera}</p>
-                <p>BRN: {property.regulatory.brn}</p>
+              <div className="mt-6 pt-6 border-t border-gray-200 text-xs text-gray-500 space-y-1.5">
+                <p>Permit {property.regulatory.permitNumber}</p>
+                <p>RERA {property.regulatory.rera}</p>
+                <p>BRN {property.regulatory.brn}</p>
               </div>
             </div>
           </div>
@@ -281,9 +263,9 @@ export default function PropertyDetailPage() {
 
         {/* Similar Properties */}
         {similarProperties.length > 0 && (
-          <section className="mt-16">
-            <h2 className="text-2xl font-bold mb-6">Similar Properties</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="mt-24 pt-12 border-t border-gray-200">
+            <h2 className="text-3xl font-semibold text-gray-900 mb-8 tracking-tight">Similar properties</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {similarProperties.map((prop) => (
                 <PropertyCard key={prop.id} property={prop} />
               ))}

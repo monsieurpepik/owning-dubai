@@ -19,7 +19,7 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 md:hidden">
       <div className="grid grid-cols-4 h-16">
         {links.map((link) => {
           const Icon = link.icon;
@@ -31,13 +31,13 @@ export function MobileNav() {
               href={link.href}
               className={cn(
                 'flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors',
-                isActive ? 'text-primary' : 'text-gray-600'
+                isActive ? 'text-gray-900' : 'text-gray-500'
               )}
             >
               <div className="relative">
                 <Icon className="h-5 w-5" />
                 {link.badge !== undefined && link.badge > 0 && (
-                  <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center">
+                  <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-gray-900 text-white text-[10px] flex items-center justify-center">
                     {link.badge}
                   </span>
                 )}
