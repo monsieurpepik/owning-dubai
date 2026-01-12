@@ -4,12 +4,11 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Property } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { Heart, Bed, Bath, Square, MapPin, Phone, MessageCircle } from 'lucide-react';
+import { Heart, Bed, Bath, Square, MapPin } from 'lucide-react';
 import { useFavoriteStore } from '@/store/favoriteStore';
-import { cn, formatPrice, formatDate } from '@/lib/utils';
+import { cn, formatPrice } from '@/lib/utils';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -29,21 +28,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
     toggleFavorite(property.id);
   };
 
-  const handleCallClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.location.href = 'tel:+971501234567';
-  };
-
-  const handleWhatsAppClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open('https://wa.me/971501234567', '_blank');
-  };
-
   return (
     <Link href={`/properties/${property.id}`}>
-      <div className="group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white">
+      <div className="group rounded-lg overflow-hidden bg-white border border-gray-200 hover:border-gray-300 transition-all duration-200">
         {/* Image Carousel */}
         <div className="relative aspect-[4/3]">
           <Swiper
@@ -65,96 +52,73 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </Swiper>
 
           {/* Badges */}
-          <div className="absolute top-3 left-3 flex gap-2 z-10">
-            {property.verification.verified && (
-              <Badge variant="success" className="bg-white text-green-600">
-                ✓ Verified
-              </Badge>
-            )}
+          <div className="absolute top-4 left-4 flex gap-2 z-10">
             {property.completionStatus === 'Off-Plan' && (
-              <Badge className="bg-blue-500 text-white">Off-Plan</Badge>
+              <Badge className="bg-gray-900/90 text-white border-0 backdrop-blur-sm text-xs font-medium">
+                Off-Plan
+              </Badge>
             )}
           </div>
 
           {/* Favorite Button */}
           <button
             onClick={handleFavoriteClick}
-            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:scale-110 transition-transform z-10"
+            className="absolute top-4 right-4 p-2 bg-white/95 backdrop-blur-sm rounded-full hover:bg-white transition-colors z-10"
           >
             <Heart
-              className={cn('w-5 h-5', favorite ? 'fill-red-500 text-red-500' : 'text-gray-600')}
+              className={cn('w-4 h-4', favorite ? 'fill-red-500 text-red-500' : 'text-gray-700')}
             />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-5">
           {/* Price */}
-          <h3 className="text-2xl font-bold mb-2 text-gray-900">
-            {property.currency} {formatPrice(property.price)}
-            {property.purpose === 'Rent' && (
-              <span className="text-sm font-normal text-gray-600">/year</span>
-            )}
-          </h3>
+          <div className="mb-3">
+            <div className="text-xl font-semibold text-gray-900 tracking-tight">
+              {property.currency} {formatPrice(property.price)}
+              {property.purpose === 'Rent' && (
+                <span className="text-sm font-normal text-gray-500 ml-1">/year</span>
+              )}
+            </div>
+          </div>
+
+          {/* Property Type */}
+          <div className="text-sm font-medium text-gray-900 mb-2">
+            {property.bedrooms === 0 ? 'Studio' : `${property.bedrooms}-Bedroom`} {property.propertyType}
+          </div>
 
           {/* Specs */}
-          <div className="flex items-center gap-4 text-gray-700 mb-3">
-            <span className="flex items-center gap-1">
-              <Bed className="w-4 h-4" />
-              <span className="text-sm">{property.bedrooms}</span>
-            </span>
-            <span className="flex items-center gap-1">
+          <div className="flex items-center gap-4 text-gray-600 mb-3 text-sm">
+            {property.bedrooms > 0 && (
+              <span className="flex items-center gap-1.5">
+                <Bed className="w-4 h-4" />
+                <span>{property.bedrooms}</span>
+              </span>
+            )}
+            <span className="flex items-center gap-1.5">
               <Bath className="w-4 h-4" />
-              <span className="text-sm">{property.bathrooms}</span>
+              <span>{property.bathrooms}</span>
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5">
               <Square className="w-4 h-4" />
-              <span className="text-sm">{formatPrice(property.size)} sqft</span>
+              <span>{formatPrice(property.size)} sqft</span>
             </span>
           </div>
 
-          {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 mb-2">{property.description}</p>
-
           {/* Off-Plan Details */}
           {property.handoverDate && (
-            <p className="text-sm font-medium text-gray-900 mb-1">
+            <div className="text-sm text-gray-600 mb-3">
               Handover {property.handoverDate}
-            </p>
-          )}
-
-          {property.paymentPlan && (
-            <p className="text-sm text-gray-600 mb-3">Payment Plan {property.paymentPlan}</p>
+            </div>
           )}
 
           {/* Location */}
-          <p className="text-sm text-gray-600 flex items-start gap-1 mb-3">
+          <div className="text-sm text-gray-600 flex items-start gap-1.5">
             <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
             <span className="line-clamp-1">
-              {property.location.building}, {property.location.area}, {property.location.city}
+              {property.location.area}, {property.location.city}
             </span>
-          </p>
-
-          {/* Posted Date */}
-          <p className="text-xs text-gray-500 mb-3">{formatDate(property.postedAt)}</p>
-
-          {/* Actions */}
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={handleCallClick}
-            >
-              <Phone className="w-4 h-4 mr-1" /> Call
-            </Button>
-            <Button
-              size="sm"
-              className="flex-1 bg-green-600 hover:bg-green-700"
-              onClick={handleWhatsAppClick}
-            >
-              <MessageCircle className="w-4 h-4 mr-1" /> WhatsApp
-            </Button>
           </div>
         </div>
       </div>

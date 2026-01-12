@@ -70,16 +70,16 @@ export default function PropertiesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-12 md:py-16">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-start mb-12">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Properties in Dubai
+            <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-3 tracking-tight">
+              Off-plan properties
             </h1>
-            <p className="text-gray-600">
-              {filteredProperties.length} properties found
+            <p className="text-lg text-gray-600">
+              {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'}
             </p>
           </div>
 
@@ -94,10 +94,10 @@ export default function PropertiesPage() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Desktop Filters Sidebar */}
           <div className="hidden lg:block">
-            <div className="sticky top-20">
+            <div className="sticky top-24">
               <FilterPanel />
             </div>
           </div>
@@ -106,8 +106,8 @@ export default function PropertiesPage() {
           {showFilters && (
             <div className="fixed inset-0 z-50 bg-black/50 md:hidden" onClick={() => setShowFilters(false)}>
               <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-bold">Filters</h2>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-semibold">Filters</h2>
                   <Button variant="ghost" onClick={() => setShowFilters(false)}>
                     Close
                   </Button>
@@ -121,7 +121,7 @@ export default function PropertiesPage() {
           <div className="lg:col-span-3">
             {displayedProperties.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                   {displayedProperties.map((property) => (
                     <PropertyCard key={property.id} property={property} />
                   ))}
@@ -129,17 +129,17 @@ export default function PropertiesPage() {
 
                 {/* Load More */}
                 {hasMore && (
-                  <div className="mt-8 text-center">
-                    <Button onClick={loadMore} size="lg">
-                      Load More Properties
+                  <div className="mt-12 text-center">
+                    <Button onClick={loadMore} size="lg" variant="outline">
+                      Show more properties
                     </Button>
                   </div>
                 )}
               </>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-xl text-gray-600">No properties found matching your filters.</p>
-                <p className="text-gray-500 mt-2">Try adjusting your search criteria.</p>
+              <div className="text-center py-24">
+                <p className="text-xl text-gray-600 mb-2">No properties match your search.</p>
+                <p className="text-gray-500">Try adjusting your filters.</p>
               </div>
             )}
           </div>
